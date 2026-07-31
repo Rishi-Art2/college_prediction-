@@ -2,7 +2,7 @@
 import hashlib
 
 import psycopg2
-import psycopg2.errors
+from psycopg2 import errors
 import psycopg2.extras
 import streamlit as st
 
@@ -18,8 +18,8 @@ def get_connection():
         sslmode=creds.get("sslmode", "require"),
         cursor_factory=psycopg2.extras.RealDictCursor,
     )
+    
     return conn
-
 
 def init_db():
     """Create tables if they don't already exist. Safe to call every run."""
