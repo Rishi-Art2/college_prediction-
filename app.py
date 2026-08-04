@@ -5,7 +5,7 @@ from supabase import create_client, Client
 # Page Configuration
 st.set_page_config(
     page_title="Admit Sure",
-    page_icon="Logo_Image.PNG",
+    page_icon="Image.jpeg",
     layout="centered"
 )
 
@@ -21,7 +21,8 @@ page_bg_img = """
 </style>
 """
 st.markdown(page_bg_img, unsafe_allow_html=True)
-
+# Main page config ke paas hi add kar sakte hain
+st.logo("Image.jpeg", icon_image="Image.jpeg")
 # Supabase Configuration
 SUPABASE_URL = "https://uchmareibvcqiajqlbl.supabase.co"
 SUPABASE_KEY = "sb_publishable_vEEkVtKRnJ0zptT1CpprI9Q_7sq_gij-"
@@ -117,35 +118,114 @@ def signup_form():
 
 # ------------------ MAIN APP CONTROLLER ------------------ #
 
-
 if st.session_state.logged_in:
+
+    # 1. Sidebar CSS Background Image Injection
+    sidebar_bg_img = """
+    <style>
+    [data-testid="stSidebar"] {
+        background-image: url("https://img.freepik.com/premium-photo/dark-blue-background-with-gold-accents-elegant-geometric-shapes_626475-10892.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    </style>
+    """
+    st.markdown(sidebar_bg_img, unsafe_allow_html=True)
     
+    sidebar_bg_img = """
+         <style>
+            [data-testid="stSidebar"] {
+                background-image: url("https://img.freepik.com/premium-photo/dark-blue-background-with-gold-accents-elegant-geometric-shapes_626475-10092.jpg");
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+            </style>
+            """
+    st.markdown(sidebar_bg_img, unsafe_allow_html=True)
+
     with st.sidebar:
-    
-        sidebar_bg_img = """
-        <style>
-        [data-testid="stSidebar"] {
-            background-image: url("https://img.freepik.com/premium-photo/dark-blue-background-with-gold-accents-elegant-geometric-shapes_626475-10092.jpg");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-        </style>
-        """
-        st.markdown(sidebar_bg_img, unsafe_allow_html=True)
+        # Top Logo Display
+        try:
+            st.image("logo.png", width=110)
+        except Exception:
+            pass
+
+        # User Info
         st.title(f"👤 {st.session_state.user['username']}")
         st.write("Navigation & Features")
+        st.divider()
+
+        # Navigation Options
+        selected_page = st.radio(
+            "Navigation",
+            ["🎯 Predict College", "📜 My History", "📊 Admin Dashboard"],
+            label_visibility="collapsed"
+        )
 
         st.divider()
 
-        if st.button("🚪 Logout", use_container_width=True):
+        # Logout Button (Properly inside sidebar)
+        if st.button("🚪 Logout", use_container_width=True, type="primary"):
             st.session_state.logged_in = False
             st.session_state.user = None
             st.rerun()
-    # Main page config ke paas hi add kar sakte hain
-    st.logo("Logo_Image.PNG", icon_image="Logo_Image.PNG")
 
+    # 3. MAIN DASHBOARD CONTENT AREA
+    st.title(f"Welcome back, {st.session_state.user['username']}! 👋")
+    st.caption("Here is an overview of college cutoff analytics & predictive admissions guide.")
+    st.markdown("---")
 
+    # Key Metrics Summary Cards
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.markdown("""
+            <div class="metric-card">
+                <div class="metric-value">500+</div>
+                <div class="metric-label">Colleges Covered</div>
+            </div>
+        """, unsafe_allow_html=True)
+
+    with col2:
+        st.markdown("""
+            <div class="metric-card">
+                <div class="metric-value">98.5%</div>
+                <div class="metric-label">Prediction Accuracy</div>
+            </div>
+        """, unsafe_allow_html=True)
+
+    with col3:
+        st.markdown("""
+            <div class="metric-card">
+                <div class="metric-value">2026</div>
+                <div class="metric-label">Latest Data Model</div>
+            </div>
+        """, unsafe_allow_html=True)
+
+    with col4:
+        st.markdown("""
+            <div class="metric-card">
+                <div class="metric-value">Active 🟢</div>
+                <div class="metric-label">System Status</div>
+            </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # Dynamic Page View Based on Selection
+    if selected_page == "🎯 Predict College":
+        st.subheader("🎯 College Cutoff Predictor")
+        # Yahan aapka Predict College wala form/inputs aayenge
+
+    elif selected_page == "📜 My History":
+        st.subheader("📜 Recent Search History")
+        # Yahan history table ya list dikhadein
+
+    elif selected_page == "📊 Admin Dashboard":
+        st.subheader("📊 System Analytics & Controls")
+        # Admin metrics
 else:
     
     st.markdown(
