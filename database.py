@@ -11,7 +11,7 @@ def get_connection():
     creds = st.secrets["postgres"]
     conn = psycopg2.connect(
         host=creds["host"],
-        port=creds.get("port", 5432),
+        port=creds.get("port", 6543),
         dbname=creds["dbname"],
         user=creds["user"],
         password=creds["password"],
