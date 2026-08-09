@@ -66,14 +66,17 @@ def login_form():
 
    
     if st.button("🌐 Login with Google", use_container_width=True):
-        response = supabase.auth.sign_in_with_oauth({
-            "provider": "google",
-            "options": {
-                "redirect_to": "https://cutoff-prediction.streamlit.app"
-            }
-        })
-        if response and hasattr(response, 'url'):
-            st.link_button("Continue to Google", response.url, use_container_width=True)
+    response = supabase.auth.sign_in_with_oauth({
+        "provider": "google",
+        "options": {
+            "redirect_to": "https://cutoff-prediction.streamlit.app"
+        }
+    })
+    if response and hasattr(response, 'url'):
+        # Direct JS redirect kar sakte hain ya link button
+        st.markdown(f'<meta http-equiv="refresh" content="0; url={response.url}">', unsafe_allow_html=True)
+        # if response and hasattr(response, 'url'):
+        #     st.link_button("Continue to Google", response.url, use_container_width=True)
 
     st.caption("Demo version • Google authentication can be enabled using Google OAuth.\nPasswords should be securely hashed (bcrypt) before storing in the database.")
 
