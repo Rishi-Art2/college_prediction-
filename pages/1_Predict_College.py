@@ -16,7 +16,9 @@ def load_data(path):
 
 # 3. Load the data using the resolved path
 df = load_data(DATA_PATH)
-
+@st.cache_data
+def load_data(path):
+    return pd.read_csv(path, sep=None, engine="python", on_bad_lines="warn")
 # --- Rest of your Streamlit code goes below ---
 st.set_page_config(page_title="Predict College", page_icon="🎓", layout="wide")
 st.logo("Image.jpeg", icon_image="Image.jpeg")
