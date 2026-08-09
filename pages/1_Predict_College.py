@@ -13,12 +13,10 @@ DATA_PATH = PAGE_DIR / "cutoff_data.csv"
 @st.cache_data
 def load_data(path):
     return pd.read_csv(path)
+    return pd.read_csv(path, on_bad_lines='skip')
 
 # 3. Load the data using the resolved path
 df = load_data(DATA_PATH)
-@st.cache_data
-def load_data(path):
-    return pd.read_csv(path, sep=None, engine="python", on_bad_lines="warn")
 # --- Rest of your Streamlit code goes below ---
 st.set_page_config(page_title="Predict College", page_icon="🎓", layout="wide")
 st.logo("Image.jpeg", icon_image="Image.jpeg")
