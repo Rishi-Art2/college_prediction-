@@ -24,7 +24,7 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 # Main page config ke paas hi add kar sakte hain
 st.logo("Image.jpeg", icon_image="Image.jpeg")
 # Supabase Configuration
-SUPABASE_URL = "https://uchmareibvcqiajqlbl.supabase.co"
+SUPABASE_URL = "https://uchmareibvcqiajcqlbl.supabase.co"
 SUPABASE_KEY = "sb_publishable_vEEkVtKRnJ0zptT1CpprI9Q_7sq_gij-"
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
