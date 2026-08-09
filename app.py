@@ -65,7 +65,7 @@ def login_form():
     st.markdown("---")
 
    
-    if st.button("🌐 Login with Google", use_container_width=True):
+if st.button("🌐 Login with Google", use_container_width=True):
     response = supabase.auth.sign_in_with_oauth({
         "provider": "google",
         "options": {
