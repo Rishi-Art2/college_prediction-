@@ -41,14 +41,13 @@ if not st.session_state.get("logged_in"):
 st.title("🎯 Predict Your College")
 
 DATA_PATH = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "cutoff_data.csv"
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "cutoff_data.csv"
 )
 
 
 @st.cache_data
 def load_data(path):
     return pd.read_csv(path)
-
 
 df = load_data(DATA_PATH)
 
