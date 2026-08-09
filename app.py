@@ -31,7 +31,20 @@ supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 # Initialize Database
 init_db()
 
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
 
+if "user" not in st.session_state:
+    st.session_state.user = None
+try:
+    auth_user = supabase.auth.get_user()
+    if auth_user and auth_user.user:
+        st.session_state.logged_in = True
+        user_email = auth_user.user.email
+        user_name = auth_user.user.user_metadata.get("full_name") or user_email.split("@")[0]
+        st.session_state.user = {"username": user_name}
+except Exception:
+    pass
 
 # ------------------ Login Form ------------------ #
 def login_form():
