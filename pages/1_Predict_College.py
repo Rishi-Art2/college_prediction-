@@ -1,24 +1,13 @@
-from pathlib import Path
+
 import os
+
 import numpy as np
 import pandas as pd
 import streamlit as st
+
 from database import save_prediction
 
-# 1. Resolve path relative to this file's location
-PAGE_DIR = Path(__file__).parent
-DATA_PATH = PAGE_DIR / "cutoff_data.csv"
-
-# 2. Cached function to load dataset safely
-@st.cache_data
-def load_data(path):
-    return pd.read_csv(path)
-    return pd.read_csv(path, on_bad_lines='skip')
-
-# 3. Load the data using the resolved path
-df = load_data(DATA_PATH)
-# --- Rest of your Streamlit code goes below ---
-st.set_page_config(page_title="Predict College", page_icon="🎓", layout="wide")
+st.set_page_config(page_title="Predict College", page_icon="🎯", layout="wide")
 st.logo("Image.jpeg", icon_image="Image.jpeg")
 page_bg_img = """
 <style>
