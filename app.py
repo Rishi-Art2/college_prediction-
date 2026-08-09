@@ -26,7 +26,7 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 st.logo("Image.jpeg", icon_image="Image.jpeg")
 
 # Supabase Configuration
-SUPABASE_URL = "https://uchmareibvcqiajcqlqbl.supabase.co"
+SUPABASE_URL = "https://uchmareibvcqiajcqlbl.supabase.co"
 SUPABASE_KEY = "sb_publishable_vEEKvtKRnJ0zptT1CpprI9Q_7sq_gij-"
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
