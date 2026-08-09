@@ -9,7 +9,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# Background CSS
+
 page_bg_img = """
 <style>
 [data-testid="stAppViewContainer"] {
@@ -21,40 +21,21 @@ page_bg_img = """
 </style>
 """
 st.markdown(page_bg_img, unsafe_allow_html=True)
-
-# Main page logo
+# Main page config ke paas hi add kar sakte hain
 st.logo("Image.jpeg", icon_image="Image.jpeg")
-
 # Supabase Configuration
 SUPABASE_URL = "https://uchmareibvcqiajcqlbl.supabase.co"
-SUPABASE_KEY = "sb_publishable_vEEKvtKRnJ0zptT1CpprI9Q_7sq_gij-"
+SUPABASE_KEY = "sb_publishable_vEEkVtKRnJ0zptT1CpprI9Q_7sq_gij-"
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # Initialize Database
 init_db()
 
-# --- Initialize Session States & Check Google OAuth Return ---
-if "logged_in" not in st.session_state:
-    st.session_state.logged_in = False
-
-if "user" not in st.session_state:
-    st.session_state.user = None
-
-# Automatically detect active Supabase/Google session on reload
-try:
-    auth_user = supabase.auth.get_user()
-    if auth_user and auth_user.user:
-        st.session_state.logged_in = True
-        user_email = auth_user.user.email
-        user_name = auth_user.user.user_metadata.get("full_name") or user_email.split("@")[0]
-        st.session_state.user = {"username": user_name}
-except Exception:
-    pass
 
 
 # ------------------ Login Form ------------------ #
 def login_form():
-    st.subheader("🔒 Login")
+    st.subheader("🔐 Login")
 
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
@@ -77,6 +58,7 @@ def login_form():
 
     st.markdown("---")
 
+   
     if st.button("🌐 Login with Google", use_container_width=True):
         response = supabase.auth.sign_in_with_oauth({
             "provider": "google",
@@ -86,7 +68,6 @@ def login_form():
         })
         if response and hasattr(response, 'url'):
             st.link_button("Continue to Google", response.url, use_container_width=True)
-
     st.caption("Demo version • Google authentication can be enabled using Google OAuth.\nPasswords should be securely hashed (bcrypt) before storing in the database.")
 
 
@@ -129,7 +110,8 @@ def signup_form():
 
 
 # ------------------ MAIN APP CONTROLLER ------------------ #
-if st.session_state.get("logged_in", False):
+
+if st.session_state.logged_in:
 
     # 1. Sidebar CSS Background Image Injection
     sidebar_bg_img = """
@@ -142,6 +124,18 @@ if st.session_state.get("logged_in", False):
     }
     </style>
     """
+    st.markdown(sidebar_bg_img, unsafe_allow_html=True)
+    
+    sidebar_bg_img = """
+         <style>
+            [data-testid="stSidebar"] {
+                background-image: url("https://img.freepik.com/premium-photo/dark-blue-background-with-gold-accents-elegant-geometric-shapes_626475-10092.jpg");
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+            </style>
+            """
     st.markdown(sidebar_bg_img, unsafe_allow_html=True)
 
     with st.sidebar:
@@ -165,12 +159,8 @@ if st.session_state.get("logged_in", False):
 
         st.divider()
 
-        # Logout Button
+        # Logout Button (Properly inside sidebar)
         if st.button("🚪 Logout", use_container_width=True, type="primary"):
-            try:
-                supabase.auth.sign_out()
-            except Exception:
-                pass
             st.session_state.logged_in = False
             st.session_state.user = None
             st.rerun()
@@ -185,34 +175,34 @@ if st.session_state.get("logged_in", False):
 
     with col1:
         st.markdown("""
-        <div class="metric-card">
-            <div class="metric-value">500+</div>
-            <div class="metric-label">Colleges Covered</div>
-        </div>
+            <div class="metric-card">
+                <div class="metric-value">500+</div>
+                <div class="metric-label">Colleges Covered</div>
+            </div>
         """, unsafe_allow_html=True)
 
     with col2:
         st.markdown("""
-        <div class="metric-card">
-            <div class="metric-value">98.5%</div>
-            <div class="metric-label">Prediction Accuracy</div>
-        </div>
+            <div class="metric-card">
+                <div class="metric-value">98.5%</div>
+                <div class="metric-label">Prediction Accuracy</div>
+            </div>
         """, unsafe_allow_html=True)
 
     with col3:
         st.markdown("""
-        <div class="metric-card">
-            <div class="metric-value">2026</div>
-            <div class="metric-label">Latest Data Model</div>
-        </div>
+            <div class="metric-card">
+                <div class="metric-value">2026</div>
+                <div class="metric-label">Latest Data Model</div>
+            </div>
         """, unsafe_allow_html=True)
 
     with col4:
         st.markdown("""
-        <div class="metric-card">
-            <div class="metric-value">Active 🟢</div>
-            <div class="metric-label">System Status</div>
-        </div>
+            <div class="metric-card">
+                <div class="metric-value">Active 🟢</div>
+                <div class="metric-label">System Status</div>
+            </div>
         """, unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
@@ -229,17 +219,20 @@ if st.session_state.get("logged_in", False):
     elif selected_page == "📊 Admin Dashboard":
         st.subheader("📊 System Analytics & Controls")
         # Admin metrics
-
 else:
-    # Hide sidebar when not logged in
-    st.markdown("""
+    
+    st.markdown(
+        """
         <style>
             [data-testid="stSidebar"] {
                 display: none;
             }
         </style>
-    """, unsafe_allow_html=True)
+        """,
+        unsafe_allow_html=True
+    )
 
+  
     col1, col2, col3 = st.columns([1, 2, 1])
 
     with col2:
