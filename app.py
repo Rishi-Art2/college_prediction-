@@ -31,27 +31,7 @@ supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 # Initialize Database
 init_db()
 
-# --- 1. Session state check on App Launch / Reload ---
-def check_user_session():
-    # Agar pehle se session logged in hai to bypass karein
-    if st.session_state.get("logged_in", False):
-        return True
 
-    # Google/Supabase OAuth redirect ke baad active user fetch karein
-    try:
-        user_response = supabase.auth.get_user()
-        if user_response and user_response.user:
-            user = user_response.user
-            st.session_state.logged_in = True
-            
-            # User metadata se name ya email extract karein
-            user_name = user.user_metadata.get("full_name") or user.email
-            st.session_state.user = {"username": user_name}
-            return True
-    except Exception:
-        pass
-    
-    return False
 
 # ------------------ Login Form ------------------ #
 def login_form():
@@ -127,8 +107,28 @@ def signup_form():
             st.error(message)
 
     st.markdown("---")
-    
 
+# --- 1. Session state check on App Launch / Reload ---
+def check_user_session():
+    # Agar pehle se session logged in hai to bypass karein
+    if st.session_state.get("logged_in", False):
+        return True
+
+    # Google/Supabase OAuth redirect ke baad active user fetch karein
+    try:
+        user_response = supabase.auth.get_user()
+        if user_response and user_response.user:
+            user = user_response.user
+            st.session_state.logged_in = True
+            
+            # User metadata se name ya email extract karein
+            user_name = user.user_metadata.get("full_name") or user.email
+            st.session_state.user = {"username": user_name}
+            return True
+    except Exception:
+        pass
+    
+    return False
 # ------------------ MAIN APP CONTROLLER ------------------ #
 
 if st.session_state.logged_in:
