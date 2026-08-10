@@ -13,7 +13,7 @@ st.set_page_config(
 page_bg_img = """
 <style>
 [data-testid="stAppViewContainer"] {
-    background-image: url("https://img.freepik.com/premium-photo/paper-cut-abstract-background_277819-187.jpg");
+    background-image: url("https://share.google/images/wpgPDrufbwtYhdGcR");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
